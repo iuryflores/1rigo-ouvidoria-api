@@ -14,13 +14,13 @@ router.get("/", async (req, res, next) => {
 });
 
 //Post complaint
-router.post("/", async (req, res, next) => {
+router.post("/add-complaint/:category", async (req, res, next) => {
+  const { category } = req.params;
   const {
     name,
     role,
     email,
     telephone,
-    category,
     sector,
     involved,
     witness,
@@ -32,16 +32,20 @@ router.post("/", async (req, res, next) => {
   const { body } = req;
 
   try {
+  
     if (!agreement || !category || !sector) {
       return res.status(400).json({
-        msg: "Category, Sector and accept the LGPD agreement is required.",
+        msg: "É obrigatório selecionar um departamento, e aceitar o termo de ciência acima!",
       });
     }
+   if(sector === 'Selecione um departamento'){
+    return res.status(400).json({msg:'É necessário selecionar um departamento'})
+   }
     const newComplaint = await Complaint.create({ ...body });
-    res.status(201).json(newComplaint);
+    return res.status(201).json(newComplaint);
     console.log("Complaint created successfully");
   } catch (error) {
-    res.status(400).json({ msg: "Couldn't create complaint!" });
+    return res.status(400).json({ msg: "Couldn't create complaint!" });
   }
 });
 

@@ -10,9 +10,9 @@ const complaintSchema = new Schema(
     details: String,
     previousComplaint: Number,
     agreement: { type: Boolean, required: [true, "Agreement is required!"] },
-    claimantFullName: String,
-    claimantJob: String,
-    claimantEmail: {
+    name: String,
+    role: String,
+    email: {
       type: String,
       match: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
     },
