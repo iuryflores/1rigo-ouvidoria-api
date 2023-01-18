@@ -16,7 +16,8 @@ const complaintSchema = new Schema(
       type: String,
       match: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
     },
-    claimantPhone: String,
+    telephone: String,
+    status: { type: String, default: "Aberto" },
   },
   { timestamps: true }
 );
