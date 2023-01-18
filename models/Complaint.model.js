@@ -18,6 +18,11 @@ const complaintSchema = new Schema(
     },
     telephone: String,
     status: { type: String, default: "Aberto" },
+    protocolo_id: {
+      type: Number,
+      required: [true, "Protocolo ID required!"],
+      unique: true,
+    },
   },
   { timestamps: true }
 );
