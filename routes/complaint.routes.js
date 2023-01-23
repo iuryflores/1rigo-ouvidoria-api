@@ -28,6 +28,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
     talkedAbout,
     details,
     previousComplaint,
+    password,
     agreement,
   } = req.body;
   const { body } = req;
@@ -56,16 +57,67 @@ router.post("/add-complaint/:category", async (req, res, next) => {
         protocolo_id: nextID,
       });
       console.log("Complaint created successfully");
+
+      const { _id } = newComplaint._id;
+      /*
+      let chars =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()+?><:{}[]";
+      let passwordLength = 10;
+      let password = "";
+
+      for (let i = 0; i < passwordLength; i++) {
+        let randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber + 1);
+      }
+*/
+      const newProtocolo = await ProtocoloID.create({
+        protocolo_id: nextID,
+        protocolo_pass: password,
+        complaint_ID: _id,
+      });
+
+      if (!newProtocolo) {
+        return res
+          .status(400)
+          .json({ msg: "não foi possivel criar o protocolo." });
+      }
+      console.log(newComplaint);
       return res.status(201).json(newComplaint);
     } else {
       const newComplaint = await Complaint.create({
         ...body,
         protocolo_id: 1,
       });
+
       console.log("Complaint created successfully");
-      return res.status(201).json(newComplaint);
+      const { _id } = newComplaint._id;
+
+      let chars =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()+?><:{}[]";
+      let passwordLength = 10;
+      let password = "";
+
+      for (let i = 0; i < passwordLength; i++) {
+        let randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber + 1);
+      }
+
+      const newProtocolo = await ProtocoloID.create({
+        protocolo_id: 1,
+        protocolo_pass: password,
+        complaint_ID: _id,
+      });
+
+      if (!newProtocolo) {
+        return res
+          .status(400)
+          .json({ msg: "não foi possivel criar o protocolo." });
+      }
+
+      return res.status(201).json({ protocolo: newProtocolo.nextID });
     }
   } catch (error) {
+    console.log("Erro");
     return res.status(400).json({ msg: "Couldn't create complaint!" });
   }
 });
