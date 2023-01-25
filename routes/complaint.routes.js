@@ -1,9 +1,13 @@
 import { Router } from "express";
 import Complaint from "../models/Complaint.model.js";
 import ProtocoloID from "../models/ProtocoloID.model.js";
-
+import nodemailer from "nodemailer";
+import * as dotenv from "dotenv";
+dotenv.config();
 const router = Router();
 
+const user = process.env.EMAIL_CENTRAL;
+const pass = process.env.PASS_CENTRAL;
 //Get all complaint
 router.get("/", async (req, res, next) => {
   try {
@@ -59,17 +63,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       console.log("Complaint created successfully");
 
       const { _id } = newComplaint._id;
-      /*
-      let chars =
-        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()+?><:{}[]";
-      let passwordLength = 10;
-      let password = "";
 
-      for (let i = 0; i < passwordLength; i++) {
-        let randomNumber = Math.floor(Math.random() * chars.length);
-        password += chars.substring(randomNumber, randomNumber + 1);
-      }
-*/
       const newProtocolo = await ProtocoloID.create({
         protocolo_id: nextID,
         protocolo_pass: password,
@@ -81,7 +75,40 @@ router.post("/add-complaint/:category", async (req, res, next) => {
           .status(400)
           .json({ msg: "não foi possivel criar o protocolo." });
       }
-      console.log(newComplaint);
+      //Send email if not anonymous
+      if (email) {
+        const sendEmail = (newProtocolo) => {
+          const transporter = nodemailer.createTransport({
+            host: "email-ssl.com.br",
+            port: 465,
+            auth: { user, pass },
+          });
+
+          transporter
+            .sendMail({
+              from: `Canal de Denúncia <${user}>`,
+              to: email,
+              replyTo: user,
+              subject: "Sistema Ouvidoria - Teste",
+              html: `
+            <h3>Denúncia registrada com sucesso!!!</h3>
+            <p>Prezado(a) usuário(a),</p>
+            <p>Confira em nosso Canal de Denúncia, através do número do protocolo e da senha de acesso, as atualizações. Para mais informações, entre em contato pelo WhatsApp (62) 3956-7600.</p>
+            <p>Protocolo n: <b> ${newProtocolo.protocolo_id}</b><br />
+            Senha: <b>${newProtocolo.protocolo_pass}</b></p>
+          `,
+            })
+            .then((info) => {
+              console.log(info);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        };
+        sendEmail(newProtocolo);
+      } else {
+        console.log("Denúncia anônima.");
+      }
       return res.status(201).json(newComplaint);
     } else {
       const newComplaint = await Complaint.create({
@@ -121,5 +148,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
     return res.status(400).json({ msg: "Couldn't create complaint!" });
   }
 });
+
+//Track complaint----------------------------------------------------------------
 
 export default router;
