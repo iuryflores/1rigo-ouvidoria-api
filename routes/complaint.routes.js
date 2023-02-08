@@ -120,7 +120,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       const { _id } = newComplaint._id;
 
       let chars =
-        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()+?><:{}[]";
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@$%^&*+?";
       let passwordLength = 10;
       let password = "";
 
