@@ -5,16 +5,17 @@ import Complaint from "../models/Complaint.model.js";
 const router = Router();
 
 router.get(
-  "/track-complaint/:protocolo_id/:pass_protocolo/",
+  "/track-complaint/:protocolo_id/:pass_protocolo",
   async (req, res, next) => {
-    console.log("entrou na api");
     const { protocolo_id, pass_protocolo } = req.params;
 
     try {
-      const dataProtocolo = await ProtocoloID.find(protocolo_id);
+      const dataProtocolo = await ProtocoloID.find({
+        protocolo_id: protocolo_id,
+      }).populate("complaint_ID");
 
       console.log(dataProtocolo);
-      return dataProtocolo;
+      return res.status(200).json(dataProtocolo);
     } catch (error) {
       return res.status(400).json({ msg: "Erro ao pegar dados" });
     }
