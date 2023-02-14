@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 const complaintSchema = new Schema(
   {
     category: { type: String, required: [true, "Category is required!"] },
+    etapa: { type: String, required: true, default: "ouvidoria" },
     sector: { type: String, required: [true, "Sector is required!"] },
     involved: String,
     witness: String,

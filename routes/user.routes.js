@@ -27,13 +27,13 @@ router.post("/user/auth/signup", async (req, res, next) => {
 
   //Check if all fields are filled
   if (!full_name || !email || !password || !cpf) {
-    return res.status(400).json({ msg: "All fields are required!" });
+    return res.status(400).json({ msg: "Todos os campos são obrigatórios!" });
   }
 
   //Check if is a valid email
   const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ msg: "Your email is not a valid one." });
+    return res.status(400).json({ msg: "Seu email não é válido." });
   }
 
   //Try to add user
@@ -42,7 +42,7 @@ router.post("/user/auth/signup", async (req, res, next) => {
     const foudedUser = await User.findOne({ email });
     if (foudedUser) {
       return res.status(400).json({
-        msg: `A user with this email "${foudedUser.email}" already exists!`,
+        msg: `Já existe um usuário com este email "${foudedUser.email}"!`,
       });
     }
 
@@ -73,7 +73,7 @@ router.post("/user/auth/login", async (req, res, next) => {
 
     //Check if email was fouded
     if (!user) {
-      return res.status(404).json({ msg: "User not found!" });
+      return res.status(404).json({ msg: "Usuário não encontrado!" });
     }
 
     //Compare the password if matchs
@@ -81,7 +81,7 @@ router.post("/user/auth/login", async (req, res, next) => {
 
     //Check if the password is wrong
     if (!compareHash) {
-      return res.status(400).json({ msg: "Wrong email or password." });
+      return res.status(400).json({ msg: "Email ou senha são inválidos." });
     }
 
     const payload = { id: user._id, email: user.email };

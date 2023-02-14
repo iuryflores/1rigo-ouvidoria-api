@@ -8,6 +8,7 @@ import cors from "cors";
 import complaintRoutes from "./routes/complaint.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import trackComplaintRoutes from "./routes/trackComplaint.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 import "./config/db.config.js";
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(`/`, complaintRoutes);
 app.use(`/`, userRoutes);
 app.use(`/`, trackComplaintRoutes);
+app.use(`/`, adminRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
