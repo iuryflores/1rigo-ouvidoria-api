@@ -18,7 +18,7 @@ const complaintSchema = new Schema(
       match: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
     },
     telephone: String,
-    status: { type: String, default: "Aberto" },
+    status: { type: String, default: "Pendente" },
     protocolo_id: {
       type: Number,
       required: [true, "Protocolo ID required!"],
