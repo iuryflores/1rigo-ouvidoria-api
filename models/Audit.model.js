@@ -32,3 +32,4 @@ const AuditSchema = new Schema(
   },
   { timestamps: true }
 );
+export default model("Audit", AuditSchema);

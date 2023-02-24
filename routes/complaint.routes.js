@@ -149,6 +149,4 @@ router.post("/add-complaint/:category", async (req, res, next) => {
   }
 });
 
-//Track complaint----------------------------------------------------------------
-
 export default router;
