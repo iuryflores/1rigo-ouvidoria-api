@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Complaint from "../models/Complaint.model.js";
 import * as dotenv from "dotenv";
+import Audit from "../models/Audit.model.js";
 dotenv.config();
 const router = Router();
 
@@ -16,7 +17,8 @@ router.get("/admin/home", async (req, res, next) => {
 router.get("/admin/denuncia/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const foundedDenuncia = await Complaint.find({ _id: id });
+    const foundedDenuncia = await Complaint.find({ _id: id }).populate("audits");
+    console.log(foundedDenuncia)
     return res.status(200).json(foundedDenuncia);
   } catch (error) {
     next(error);

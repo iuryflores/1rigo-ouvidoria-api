@@ -17,6 +17,14 @@ router.get("/users", async (req, res, next) => {
     next();
   }
 });
+router.get("/users/:id", async (req, res, next) => {
+  try {
+    const allUsers = await User.find({ _id: id });
+    return res.status(200).json(allUsers);
+  } catch (error) {
+    next();
+  }
+});
 
 //Create User
 router.post("/user/auth/signup", async (req, res, next) => {

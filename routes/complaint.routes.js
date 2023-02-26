@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Complaint from "../models/Complaint.model.js";
 import ProtocoloID from "../models/ProtocoloID.model.js";
+import Audit from "../models/Audit.model.js";
 import nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -52,7 +53,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       .sort({ protocolo_id: -1 })
       .limit(1);
 
-    if (lastComplaint.length > 0) {
+    if (lastComplaint.length >= 0) {
       const lastID = lastComplaint[0].protocolo_id;
       const nextID = lastID + 1;
 
@@ -63,6 +64,17 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       console.log("Complaint created successfully");
 
       const { _id } = newComplaint._id;
+      const newAudit = await Audit.create({
+        descricao: "Cadastrou uma denúncia",
+        entidade: "denúncia",
+        operacao: "CADASTRO",
+        userName: name,
+      });
+      if (!newAudit) {
+        return res
+          .status(400)
+          .json({ msg: "não foi possivel criar a auditoria." });
+      }
 
       const newProtocolo = await ProtocoloID.create({
         protocolo_id: nextID,
@@ -109,7 +121,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       } else {
         console.log("Denúncia anônima.");
       }
-      return res.status(201).json(newComplaint);
+      res.status(201).json(newComplaint);
     } else {
       const newComplaint = await Complaint.create({
         ...body,
@@ -120,7 +132,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       const { _id } = newComplaint._id;
 
       let chars =
-        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@$%^&*+?";
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@$^*+?";
       let passwordLength = 10;
       let password = "";
 

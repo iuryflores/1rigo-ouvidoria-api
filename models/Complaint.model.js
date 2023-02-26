@@ -18,12 +18,20 @@ const complaintSchema = new Schema(
       match: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
     },
     telephone: String,
-    status: { type: String, default: "Pendente" },
+    status: { type: String, default: "pendente" },
     protocolo_id: {
       type: Number,
       required: [true, "Protocolo ID required!"],
       unique: true,
     },
+    responsible_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    responsible_name: { type: "String", required: true, default: "Anônimo" },
+    audits: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Audit",
+      },
+    ],
   },
   { timestamps: true }
 );

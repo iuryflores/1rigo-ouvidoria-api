@@ -17,16 +17,17 @@ const AuditSchema = new Schema(
     protocolo_id: {
       type: Schema.Types.ObjectId,
       ref: "Protocolo",
-      required: true,
     },
     complaint_id: {
       type: Schema.Types.ObjectId,
       ref: "Complaint",
-      required: true,
     },
     user_id: {
       type: Schema.Types.ObjectId,
       ref: "Users",
+    },
+    userName: {
+      type: "String",
       required: true,
     },
   },
