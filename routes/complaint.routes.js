@@ -53,7 +53,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       .sort({ protocolo_id: -1 })
       .limit(1);
 
-    if (lastComplaint.length >= 0) {
+    if (lastComplaint.length > 0) {
       const lastID = lastComplaint[0].protocolo_id;
       const nextID = lastID + 1;
 
@@ -68,7 +68,8 @@ router.post("/add-complaint/:category", async (req, res, next) => {
         descricao: "Cadastrou uma denúncia",
         entidade: "denúncia",
         operacao: "CADASTRO",
-        userName: name,
+        userName: name || "Anônimo",
+        complaint_id: newComplaint._id,
       });
       if (!newAudit) {
         return res
@@ -87,6 +88,12 @@ router.post("/add-complaint/:category", async (req, res, next) => {
           .status(400)
           .json({ msg: "não foi possivel criar o protocolo." });
       }
+
+      await Complaint.findByIdAndUpdate(
+        { _id: newComplaint._id },
+        { audits: newAudit._id },
+        { new: true }
+      );
       //Send email if not anonymous
       if (email) {
         const sendEmail = (newProtocolo) => {
