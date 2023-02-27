@@ -10,15 +10,16 @@ router.get("/admin/home", async (req, res, next) => {
     const allDenuncias = await Complaint.find();
     return res.status(200).json(allDenuncias);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 });
 router.get("/admin/denuncia/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const foundedDenuncia = await Complaint.find({ _id: id }).populate("audits");
-    console.log(foundedDenuncia)
+    const foundedDenuncia = await Complaint.find({ _id: id }).populate(
+      "audits"
+    );
     return res.status(200).json(foundedDenuncia);
   } catch (error) {
     next(error);
@@ -38,7 +39,7 @@ router.get("/admin/denuncias/status/:status", async (req, res, next) => {
     const foundedDenuncias = await Complaint.find({ status: status });
     return res.status(200).json(foundedDenuncias);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 });

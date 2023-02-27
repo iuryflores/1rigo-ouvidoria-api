@@ -67,7 +67,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       const newAudit = await Audit.create({
         descricao: "Cadastrou uma denúncia",
         entidade: "denúncia",
-        operacao: "CADASTRO",
+        operacao: "CADASTRAR",
         userName: name || "Anônimo",
         complaint_id: newComplaint._id,
       });
