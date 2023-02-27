@@ -42,16 +42,16 @@ router.post(`/admin/denuncia/:id`, async (req, res, next) => {
       descricao: "Assumiu a denúncia",
       operacao: "ASSUMIR",
       complaint_id: id,
-      userName: foundedUser.full_name,
+      userName: foundedUser.full_name
     });
 
     await Complaint.findByIdAndUpdate(id, {
       $set: {
         responsible_name: foundedUser.full_name,
         responsible_id: userId,
-        status: "em-andamento",
+        status: "em-andamento"
       },
-      $push: { audits: newAudit._id },
+      $push: { audits: newAudit._id }
     });
   } catch (error) {
     console.error(error.message);
@@ -66,8 +66,8 @@ router.patch(`/admin/denuncia/:id`, async (req, res, next) => {
     .replace("finalizar", "finalizado")
     .replace(" ", "-");
   const newTipo = tipo.replace(" ", "-");
-console.log(newTipo)
-/*
+  console.log(newTipo);
+
   try {
     const foundedDenuncia = await Complaint.findOne({ _id: id }).populate(
       "audits"
@@ -83,19 +83,19 @@ console.log(newTipo)
       descricao: "Finalizou a denúncia",
       operacao: "FINALIZAR",
       complaint_id: id,
-      userName: foundedUser.full_name,
+      userName: foundedUser.full_name
     });
 
     await Complaint.findByIdAndUpdate(
       { _id: id },
       {
         $set: { status: newTipo },
-        $push: { audits: newAudit._id },
+        $push: { audits: newAudit._id }
       }
     );
-    return res.status(200).json("Finalizado com suscesso!");
+    return res.status(200).json({ msg: "Finalizado com suscesso!" });
   } catch (error) {
     console.error(error.message);
-  }*/
+  }
 });
 export default router;
