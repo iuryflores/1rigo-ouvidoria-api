@@ -7,6 +7,14 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const router = Router();
 
+router.get(
+  "/track-complaint/:protocolo_id/:pass_protocolo",
+  async (req, res, next) => {
+    const { protocolo_id } = req.params;
+    console.log(protocolo_id);
+  }
+);
+
 router.patch("/admin/denuncia/:id", async (req, res, next) => {
   const { messageUser } = req.body;
   const { id } = req.params;
@@ -49,6 +57,8 @@ router.patch("/admin/denuncia/:id", async (req, res, next) => {
       }
     );
     return res.status(200).json({ msg: "Message sended!" });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 export default router;
