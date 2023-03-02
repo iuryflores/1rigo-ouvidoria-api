@@ -49,7 +49,7 @@ router.patch(
     const { messageUser } = req.body;
     const { protocolo_id } = req.params;
 
-    console.log(req);
+
 
     try {
       const foundedDenuncia = await Complaint.findOne({

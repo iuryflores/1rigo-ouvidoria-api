@@ -4,10 +4,14 @@ const messageSchema = new Schema(
   {
     descricao: { type: "String", required: true },
     userName: { type: "String", required: true, default: "Anônimo" },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     complaint_id: {
       type: Schema.Types.ObjectId,
-      ref: "Complaint"
-    }
+      ref: "Complaint",
+    },
   },
   { timestamps: true }
 );

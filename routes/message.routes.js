@@ -34,7 +34,8 @@ router.patch("/admin/denuncia/:id", async (req, res, next) => {
     const newMessage = await Message.create({
       descricao: messageUser,
       userName: foundedUser.full_name,
-      complaint_id: id
+      complaint_id: id,
+      userId: foundedUser._id,
     });
 
     if (!newMessage) {
@@ -47,13 +48,13 @@ router.patch("/admin/denuncia/:id", async (req, res, next) => {
       descricao: "Enviou uma mensagem",
       operacao: "ENVIAR",
       complaint_id: id,
-      userName: foundedUser.full_name
+      userName: foundedUser.full_name,
     });
     await Complaint.findByIdAndUpdate(
       { _id: id },
       {
         $set: { etapa: "usuario" },
-        $push: { messages_id: newMessage._id, audits: newAudit._id }
+        $push: { messages_id: newMessage._id, audits: newAudit._id },
       }
     );
     return res.status(200).json({ msg: "Message sended!" });
