@@ -10,7 +10,7 @@ const users = new Schema(
     },
     cpf: { type: String, required: true },
     passwordHash: { type: String, required: true },
-    status: { type: Boolean, default: true },
+    status: { type: Boolean, default: false },
     admin: { type: Boolean, default: false },
   },
   { timestamps: true }

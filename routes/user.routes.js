@@ -79,6 +79,13 @@ router.post("/user/auth/login", async (req, res, next) => {
     //Look for user by email
     const user = await User.findOne({ email });
 
+    const userStatus = user.status;
+
+    if (!userStatus) {
+      return res
+        .status(400)
+        .json({ status: 401, msg: "Usuário não autorizado" });
+    }
     //Check if email was fouded
     if (!user) {
       return res.status(404).json({ msg: "Usuário não encontrado!" });
