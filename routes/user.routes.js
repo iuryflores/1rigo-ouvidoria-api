@@ -17,9 +17,10 @@ router.get("/users", async (req, res, next) => {
     next();
   }
 });
-router.get("/users/:id", async (req, res, next) => {
+router.get("/user", async (req, res, next) => {
+  console.log(res);
   try {
-    const allUsers = await User.find({ _id: id });
+    const allUsers = await User.find();
     return res.status(200).json(allUsers);
   } catch (error) {
     next();
