@@ -13,7 +13,7 @@ const pass = process.env.PASS_CENTRAL;
 router.get("/", async (req, res, next) => {
   try {
     const allComplaint = await Complaint.find();
-    res.status(200).json(allComplaint);
+    res.status(200).json({ msg: "Working" });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -163,7 +163,7 @@ router.post("/add-complaint/:category", async (req, res, next) => {
       return res.status(201).json({ protocolo: newProtocolo.nextID });
     }
   } catch (error) {
-    console.log("Erro");
+    console.log("Couldn't create complaint!");
     return res.status(400).json({ msg: "Couldn't create complaint!" });
   }
 });

@@ -11,20 +11,21 @@ router.get(
   "/track-complaint/:protocolo_id/:pass_protocolo",
   async (req, res, next) => {
     const { protocolo_id } = req.params;
-    console.log(protocolo_id);
+   
   }
 );
 
-router.patch("/admin/denuncia/:id", async (req, res, next) => {
+router.patch("/admin/denuncia/message/:id", async (req, res, next) => {
   const { messageUser } = req.body;
   const { id } = req.params;
   const userId = req.user.id;
-  console.log(id, userId);
+
 
   try {
     const foundedDenuncia = await Complaint.findOne({ _id: id }).populate(
       "audits"
     );
+   
     if (!foundedDenuncia) {
       return res.status(400).json({ msg: "Denuncia não encontrada!" });
     }
@@ -41,7 +42,7 @@ router.patch("/admin/denuncia/:id", async (req, res, next) => {
     if (!newMessage) {
       return res.status(401).json({ msg: "Error sending message" });
     }
-    console.log(newMessage);
+
 
     const newAudit = await Audit.create({
       entidade: "mensagens",

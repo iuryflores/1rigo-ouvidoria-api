@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const messageSchema = new Schema(
   {
-    descricao: { type: "String", required: true },
+    descricao: { type: "String"},
     userName: { type: "String", required: true, default: "Anônimo" },
     userId: {
       type: Schema.Types.ObjectId,
