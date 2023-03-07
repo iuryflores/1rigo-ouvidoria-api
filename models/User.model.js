@@ -12,6 +12,7 @@ const users = new Schema(
     passwordHash: { type: String, required: true },
     status: { type: Boolean, default: false },
     admin: { type: Boolean, default: false },
+    entidade: { type: String, required: true },
   },
   { timestamps: true }
 );

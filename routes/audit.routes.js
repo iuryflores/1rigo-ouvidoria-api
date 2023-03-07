@@ -63,7 +63,7 @@ router.patch(`/admin/denuncia/:id`, async (req, res, next) => {
   const userId = req.user.id;
   const tipo = req.body.tipo
     .toLowerCase()
-    .replace("finalizar", "finalizado")
+    .replace("finalizar", "finalizada")
     .replace(" ", "-");
   const newTipo = tipo.replace(" ", "-");
   console.log(newTipo);
@@ -93,7 +93,7 @@ router.patch(`/admin/denuncia/:id`, async (req, res, next) => {
         $push: { audits: newAudit._id }
       }
     );
-    return res.status(200).json({ msg: "Finalizado com suscesso!" });
+    return res.status(200).json({ msg: "Finalizada com suscesso!" });
   } catch (error) {
     console.error(error.message);
   }

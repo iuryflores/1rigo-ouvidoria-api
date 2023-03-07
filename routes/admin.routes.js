@@ -20,7 +20,7 @@ router.get("/admin/denuncia/:id", async (req, res, next) => {
     const foundedDenuncia = await Complaint.find({ _id: id })
       .populate("audits")
       .populate("messages_id");
-      
+
     return res.status(200).json(foundedDenuncia);
   } catch (error) {
     next(error);
@@ -36,6 +36,7 @@ router.get("/admin/denuncias", async (req, res, next) => {
 });
 router.get("/admin/denuncias/status/:status", async (req, res, next) => {
   const { status } = req.params;
+  console.log(status);
   try {
     const foundedDenuncias = await Complaint.find({ status: status });
     return res.status(200).json(foundedDenuncias);

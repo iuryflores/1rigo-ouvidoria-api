@@ -8,19 +8,19 @@ import jwt from "jsonwebtoken";
 
 const router = Router();
 
-//Get users
-router.get("/users", async (req, res, next) => {
+//Get users Denuncias
+router.get("/denuncias/users", async (req, res, next) => {
   try {
-    const allUsers = await User.find();
+    const allUsers = await User.find({ entidade: "denuncia" });
     return res.status(200).json(allUsers);
   } catch (error) {
     next();
   }
 });
-router.get("/user", async (req, res, next) => {
-  console.log(res);
+//Get users Ouvidoria
+router.get("/ouvidoria/users", async (req, res, next) => {
   try {
-    const allUsers = await User.find();
+    const allUsers = await User.find({ entidade: "ouvidoria" });
     return res.status(200).json(allUsers);
   } catch (error) {
     next();
@@ -29,10 +29,8 @@ router.get("/user", async (req, res, next) => {
 
 //Create User
 router.post("/user/auth/signup", async (req, res, next) => {
-  const { body } = req;
-
   //Get data from body
-  let { full_name, email, password, cpf } = req.body;
+  let { full_name, email, password, cpf, entidade } = req.body;
 
   //Check if all fields are filled
   if (!full_name || !email || !password || !cpf) {
@@ -61,12 +59,18 @@ router.post("/user/auth/signup", async (req, res, next) => {
 
     //Create new user
 
-    const newUser = await User.create({ full_name, email, passwordHash, cpf });
+    const newUser = await User.create({
+      full_name,
+      email,
+      passwordHash,
+      cpf,
+      entidade,
+    });
 
     //Get id from newUser
     const { _id } = newUser;
 
-    return res.status(201).json({ full_name, email, _id });
+    return res.status(201).json({ full_name, email, _id, entidade });
   } catch (error) {
     next(error);
   }
