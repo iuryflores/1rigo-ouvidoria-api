@@ -6,6 +6,7 @@ import logger from "morgan";
 import cors from "cors";
 
 import complaintRoutes from "./routes/complaint.routes.js";
+import ouvidoriaRoutes from "./routes/ouvidoria.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import trackComplaintRoutes from "./routes/trackComplaint.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
@@ -23,6 +24,7 @@ app.use(logger("dev"));
 app.use(express.json());
 
 app.use(`/`, complaintRoutes);
+app.use(`/`, ouvidoriaRoutes);
 app.use(`/`, trackComplaintRoutes);
 app.use(`/`, userRoutes);
 
