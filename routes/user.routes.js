@@ -46,7 +46,7 @@ router.post("/user/auth/signup", async (req, res, next) => {
   //Try to add user
   try {
     //Check if user exists
-    const foudedUser = await User.findOne({ email });
+    const foudedUser = await User.findOne({ email, entidade });
     if (foudedUser) {
       return res.status(400).json({
         msg: `Já existe um usuário com este email "${foudedUser.email}"!`,
@@ -78,15 +78,14 @@ router.post("/user/auth/signup", async (req, res, next) => {
 
 //Login
 router.post("/user/auth/login", async (req, res, next) => {
-  const { email, password } = req.body;
-
+  const { email, password, entidade } = req.body;
+  console.log(entidade);
+  const status = true;
   try {
     //Look for user by email
-    const user = await User.findOne({ email });
-
-    const userStatus = user.status;
-
-    if (!userStatus) {
+    const user = await User.findOne({ email, entidade });
+    console.log(user);
+    if (user.status !== true) {
       return res
         .status(400)
         .json({ status: 401, msg: "Usuário não autorizado" });
@@ -113,6 +112,7 @@ router.post("/user/auth/login", async (req, res, next) => {
 
     return res.status(200).json({ ...payload, token });
   } catch (error) {
+    console.log("error");
     next(error);
   }
 });
