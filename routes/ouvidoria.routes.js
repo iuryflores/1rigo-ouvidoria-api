@@ -18,7 +18,6 @@ router.get("/", async (req, res, next) => {
     res.status(500).json({ error });
   }
 });
-
 //Post Ouvidoria
 router.post("/add-ouvidoria/tipos/:tipo", async (req, res, next) => {
   const { tipo } = req.params;

@@ -9,9 +9,10 @@ import jwt from "jsonwebtoken";
 const router = Router();
 
 //Get users Denuncias
-router.get("/denuncias/users", async (req, res, next) => {
+router.get("/users", async (req, res, next) => {
+  console.log(req.body);
   try {
-    const allUsers = await User.find({ entidade: "denuncia" });
+    const allUsers = await User.findAll({ entidade: entidade });
     return res.status(200).json(allUsers);
   } catch (error) {
     next();
@@ -26,7 +27,15 @@ router.get("/ouvidoria/users", async (req, res, next) => {
     next();
   }
 });
-
+router.get("/user/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const allUsers = await User.find({ _id: id });
+    return res.status(200).json(allUsers);
+  } catch (error) {
+    next();
+  }
+});
 //Create User
 router.post("/user/auth/signup", async (req, res, next) => {
   //Get data from body
@@ -103,7 +112,11 @@ router.post("/user/auth/login", async (req, res, next) => {
       return res.status(400).json({ msg: "Email ou senha são inválidos." });
     }
 
-    const payload = { id: user._id, email: user.email };
+    const payload = {
+      id: user._id,
+      email: user.email,
+      entidade: user.entidade,
+    };
 
     //Create token
     const token = jwt.sign(payload, process.env.JWT_SECRET, {

@@ -12,6 +12,7 @@ import trackComplaintRoutes from "./routes/trackComplaint.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import auditRoutes from "./routes/audit.routes.js";
 import messageRoutes from "./routes/message.routes.js";
+import ouvidoriaAdmin from "./routes/ouvidoriaAdmin.routes.js";
 
 import authMiddleware from "./middlewares/auth.middlewares.js";
 
@@ -33,7 +34,7 @@ app.use(authMiddleware);
 app.use(`/`, adminRoutes);
 app.use(`/`, messageRoutes);
 app.use(`/`, auditRoutes);
-
+app.use(`/`, ouvidoriaAdmin);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
