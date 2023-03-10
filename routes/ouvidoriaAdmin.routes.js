@@ -38,7 +38,7 @@ router.get("/admin/ouvidoria/status/:status", async (req, res, next) => {
   const { status } = req.params;
   console.log(status);
   try {
-    const foundedDenunfoundedOuvidoriacias = await Ouvidoria.find({
+    const foundedOuvidoria = await Ouvidoria.find({
       status: status,
     });
     return res.status(200).json(foundedOuvidoria);

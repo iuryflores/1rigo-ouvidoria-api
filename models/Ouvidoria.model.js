@@ -22,7 +22,7 @@ const ouvidoriaSchema = new Schema(
       unique: true,
     },
     responsible_id: { type: Schema.Types.ObjectId, ref: "Users" },
-    responsible_name: { type: "String", required: true, default: "Anônimo" },
+    responsible_name: { type: "String" },
     audits: [
       {
         type: Schema.Types.ObjectId,
